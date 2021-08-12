@@ -18,7 +18,12 @@ public class CommentService {
     UserService userService;
 
     public Comments submitCommentToDB(Comments comment) {
-        return commentRepo.save(comment);
+        Comments result = commentRepo.save(comment);
+        User user = userService.displayUserMetaData(result.getUserId());
+        if(user != null) {
+            result.setUserName(user.getUserName());
+        }
+        return result;
     }
 
     public ArrayList<Comments> getAllCommentsForDB(String postId) {
